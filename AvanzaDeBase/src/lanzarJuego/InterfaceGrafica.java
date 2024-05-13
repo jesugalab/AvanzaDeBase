@@ -32,7 +32,7 @@ public class InterfaceGrafica {
 		if (totalPilotos>0) {
 			if (totalPilotos==1)  PartidaJugJug ();
 			else {
-				int tipoJuego=tecla.leMenu(2, "\n\n Seleccione el tipo de Juego:\n1.- Cuando Maten a Uno Empieza el Siguiente.\2.- Por Turnos (Alternando Jugadores). Aun no Implementado\n");
+				int tipoJuego=tecla.leMenu(2, "\n\n Seleccione el tipo de Juego:\n1.- Cuando Maten a Uno Empieza el Siguiente.\2.- Por Turnos (Alternando Jugadores).\n");
 				if (tipoJuego==1) PartidaJugJug ();
 				else PartidaTurnos();
 			}	
@@ -46,6 +46,16 @@ public class InterfaceGrafica {
 	private  void PartidaTurnos() {
 		// TODO Auto-generated method stub
 		
+		/*
+		 * añadir  la partida por turnos
+		 * 
+		 *  Aun no Implementado
+		 * 
+		 * 	aqui va el codigo.... 
+		 * 
+		 *   alguien se anima?
+		 * 
+		 */
 	}
 
 	private  void PartidaJugJug() {
