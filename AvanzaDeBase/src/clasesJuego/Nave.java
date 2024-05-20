@@ -69,7 +69,7 @@ public class Nave {
 		combustible-=2;	
 		this.setDanio (this.lluviaMeteroritos());
 		this.setDanio (this.lluviaMeteroritos());
-		if(!destruida) return (int) Math.floor(Math.random()*4)+1;
+		if(!destruida) return (int) Math.floor(Math.random()*4)+2;
 		else return 0;
 	}
 
@@ -95,7 +95,7 @@ public class Nave {
 		this.setDanio (va);
 		lluvia = new PantallaLLuviaMeteoritos();
 	    va = lluvia.Iniciar(numBase);
-		this.setDanio (va);if(!destruida) return (int) Math.floor(Math.random()*4)+1;
+		this.setDanio (va);if(!destruida) return (int) Math.floor(Math.random()*4)+2;
 		else return 0;
 	}		
 }

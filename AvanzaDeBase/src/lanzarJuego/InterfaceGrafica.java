@@ -27,53 +27,65 @@ public class InterfaceGrafica {
 		miConsola.Iniciar("Avanza de Base                       ",false);
         miLector = miConsola.getScanner();
 		tecla=new Teclado(miLector);
-		totalPilotos=tecla.leEntero(" Cuantos pilotos van a Participar? ");
-		piloto = new PilotoInterfaceGrafica [totalPilotos] ;
-		if (totalPilotos>0) {
-			if (totalPilotos==1)  PartidaJugJug ();
-			else {
-				int tipoJuego=tecla.leMenu(2, "\n\n Seleccione el tipo de Juego:\n1.- Cuando Maten a Uno Empieza el Siguiente.\2.- Por Turnos (Alternando Jugadores).\n");
-				if (tipoJuego==1) PartidaJugJug ();
-				else PartidaTurnos();
-			}	
+		boolean masPartidas=true;
+		while(masPartidas) {
+			totalPilotos=tecla.leEntero("\n\n   Cuantos pilotos van a Participar? ");
+			piloto = new PilotoInterfaceGrafica [totalPilotos] ;
+			if (totalPilotos>0) {
+				if (totalPilotos==1)  PartidaJugJug ();
+				else {
+					int tipoJuego=tecla.leMenu(2, "\n\n\tSeleccione el tipo de Juego:\n\n 1.- Por Turnos (Alternando Jugadores).\n 2.- Cuando Maten a Uno Empieza el Siguiente.\n\n");
+					if (tipoJuego==2) PartidaJugJug ();
+					else PartidaTurnos();
+				}	
+			}
+			// nuestra los Resultados
+			System.out.println("\n >>>>>>>> RESULTADOS FINALES <<<<<<<<\n");
+			for (int i=0;i<totalPilotos;i++) { 
+				System.out.println("\n ==>> "+piloto[i].toString()+"\n==>> "+piloto[i].toStringNave());
+			}
+			masPartidas=tecla.leLogico("\n\n\t¿ Desea Jugar Otra Partida ? ");
 		}
-		// nuestra los Resultados
-		System.out.println("\n >>>>>>>> RESULTADOS FINALES <<<<<<<<\n");
-		for (int i=0;i<totalPilotos;i++) { 
-			System.out.println("\n ==>> "+piloto[i].toString()+"\n==>> "+piloto[i].toStringNave());
-		}
+		System.exit(0);
 	}
 	private  void PartidaTurnos() {
-		// TODO Auto-generated method stub
-		
-		/*
-		 * añadir  la partida por turnos
-		 * 
-		 *  Aun no Implementado
-		 * 
-		 * 	aqui va el codigo.... 
-		 * 
-		 *   alguien se anima?
-		 * 
-		 */
+	    // Inicializar los pilotos
+	    System.out.println("\n\n Bienvenidos a la Base 0. Nos han informado que se han unido a nuestras filas. Aquí tienen sus nuevas.\n Lamentablemente aquí solo disponemos de naves básicas nuevas.\n  ¡Que tengan suerte!\n");
+	    for (int i = 0; i < totalPilotos; i++) {
+	        String nom = tecla.leFrase("\n Introduce el Nombre del Piloto " + (i + 1) + " :  ");
+	        piloto[i] = new PilotoInterfaceGrafica(nom);
+	    }
+	    boolean juegoActivo = true;
+	    // Bucle para alternar los turnos de los pilotos
+	    while (juegoActivo) {
+	        juegoActivo = false; // El juego terminará cuando todos los pilotos NO esten jugando
+	        for (int i = 0; i < totalPilotos; i++) {
+	            if (!piloto[i].isNaveDestruida() && piloto[i].estaJugando) {
+	            	System.out.println("\n");
+	                JugarTurno(i);
+	                if(piloto[i].isNaveDestruida() || !piloto[i].estaJugando) {
+	                	System.out.println("\n ---->> FINAL:\n ==>> "+piloto[i].toString()+"\n ==>> "+piloto[i].toStringNave()+"\n");
+	                	juegoActivo = false;
+	                } else juegoActivo = true; // Si algún piloto todavía está jugando, mantenemos el juego activo		                
+	            }
+	        }
+	    }
 	}
-
 	private  void PartidaJugJug() {
 		for (int i=0;i<totalPilotos;i++) {
-			nom=tecla.leFrase("\n Introduce el Nombre del Piloto: ");
+			nom=tecla.leFrase("\n\n\tIntroduce el Nombre del Piloto "+(i+1)+" :  ");
 			piloto [i]=new PilotoInterfaceGrafica(nom);
 			System.out.println("\n Bienvenido a la Base 0. Nos an Informado que Se ha Unido a Nuestras Filas.\n "+piloto[i].getId()+" Aqui Tiene Su Nueva "+piloto[i].toStringNave()+"\n Lamentablemente Aqui Solo Disponemos de Naves Basicas Nuevas.\n  Que Tenga Suerte !!!");
 			do {
 				JugarTurno(i);
-			}while (!piloto[i].isNaveDestruida() && accion!=5);
+			}while (!piloto[i].isNaveDestruida() && piloto[i].estaJugando);
 			System.out.println("\n ---->> FINAL:\n ==>> "+piloto[i].toString()+"\n ==>> "+piloto[i].toStringNave()+"\n");
 		}		
 	}
-
 	private  void JugarTurno(int pilo) {
 		System.out.println("\n\n ==>> "+piloto[pilo].toString()+"\n ==>> "+piloto[pilo].toStringNave()+"\n");
 		accion=tecla.leMenu(5, " 1.- Avanzar una base recibiendo una lluvia de meteoritos en su nave y gastando 1 Celula de combustible.\n"
-				+ " 2.- Avanzar Multiples (entre una y cuatro) bases recibiendo dos lluvias de meteoritos y gastando 2 Celulas de combustible.\n"
+				+ " 2.- Avanzar Multiples (entre 2 y 5) bases recibiendo dos lluvias de meteoritos y gastando 2 Celulas de combustible.\n"
 				+ " 3.- Reparar tu mismo dos impactos gastando 2 Celulas de combustible y sin avanzar ninguna base (Sin lluvias de meteoritos).\n"
 				+ " 4.- Entrar en la Base. Te Esperan Muchas Sorpresas.\n"
 				+ " 5.- TERMINAR (Antes que te maten y no puedas disfrutar tus "+piloto[pilo].getDinero()+" Creditos).\n"
@@ -85,8 +97,7 @@ public class InterfaceGrafica {
 			System.out.println(Base.venderProducto(piloto[pilo],accion));
 			accion=0;
 			} else System.out.println("\n  Ya se ha Realizado una Compra En esta Base. Avance a la Siguiente Base si Quiere Seguir Comprando.");
-		}
+		}else if (accion==5) {piloto[pilo].estaJugando=false;}
 		else piloto[pilo].realizarAccion(accion);
 	}
-
 }

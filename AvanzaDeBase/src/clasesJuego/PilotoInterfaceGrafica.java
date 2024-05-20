@@ -4,6 +4,8 @@ package clasesJuego;
  *  Pues necesita cambiar el metodo realizarAccion para La Pantalla de Asteroides. */
 public class PilotoInterfaceGrafica extends Piloto { 
 
+		public boolean estaJugando=true;
+	
 	public PilotoInterfaceGrafica() {
 		super();
 	}
