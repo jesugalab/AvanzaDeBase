@@ -1,10 +1,9 @@
 package DAM;
 
-
 import java.util.Scanner;
 
 public class Teclado {
-	public Scanner teclado;
+	Scanner teclado;
 	
 	public Teclado () {
 		teclado = new Scanner(System.in);
@@ -23,6 +22,7 @@ public class Teclado {
 		while (true) {
 			try {
 				devuelve = teclado.nextInt();
+				teclado.nextLine(); // limpia el buffer despues de leer el entero
 				return devuelve;
 			} catch (Exception e){
 				teclado.next();				
@@ -94,7 +94,6 @@ public class Teclado {
 			}
 		}
 	}
-	
 	public String leFrase (String mensaje) {
 		System.out.print(mensaje+" ");
 		return leFrase();
@@ -133,5 +132,22 @@ public class Teclado {
 		System.out.print(mensaje+"Haga su Eleccion ("+numero_minimo+" , "+numero_total+"): ");
 		return leMenu (numero_minimo,numero_total);		
 	}
-
+	
+	
+	public void Pausa(String mensaje) {
+		System.out.println(mensaje);
+		Pausa();
+	}
+	
+	//		------------------------- Este hay que mirarlo.... (CREO)
+	public void Pausa() {
+		while (true) {
+			try {
+				teclado.nextLine();
+				return;
+			} catch (Exception e){
+				teclado.next();
+			}
+		}
+	}
 }
